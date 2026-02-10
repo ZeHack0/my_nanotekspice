@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - ga-ignore-*
+      - mirror
   pull_request:
     branches-ignore:
       - ga-ignore-*
@@ -40,6 +41,7 @@ jobs:
           done'
 
   mirror:
+    if: github.repository != 'EpitechPGE2-2025/G-OOP-400-REN-4-1-tekspice-6'
     needs: check_compilation
     runs-on: ubuntu-latest
     steps:
