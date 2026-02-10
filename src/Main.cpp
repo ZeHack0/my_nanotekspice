@@ -9,5 +9,5 @@
 
 int main(void)
 {
-    std::cout << "test" << std::endl;
+    std::cout << "start nanotekspice" << std::endl;
 }

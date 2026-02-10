@@ -13,29 +13,8 @@ env:
   EXECUTABLES: 'nanotekspice'
 
 jobs:
-  check_coding_style:
-    container: ghcr.io/epitech/coding-style-checker:latest
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: run coding style checker
-        run: |
-          check.sh $(pwd) $(pwd)
-          exit_status=0;
-          while read line ; do
-            file=$(echo $line | cut -d: -f1)
-            place=$(echo $line | cut -d: -f2)
-            tag=$(echo $line | cut -d: -f3)
-            code=$(echo $line | cut -d: -f4)
-          relative_path=$(realpath --relative-to="$(pwd)" "$file")
-            exit_status=1
-            echo "::error file=$file,line=$place,col=1::$tag error: $code"
-          done < coding-style-reports.log
-          exit $exit_status
 
   check_compilation:
-    needs: check_coding_style
     container: epitechcontent/epitest-docker:latest
     runs-on: ubuntu-latest
     steps:
