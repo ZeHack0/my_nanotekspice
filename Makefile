@@ -7,7 +7,7 @@
 
 include flags.mk
 
-NAME = nanotejspice
+NAME = nanotekspice
 
 CC := g++
 
