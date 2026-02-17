@@ -10,4 +10,4 @@ CPPFLAGS += -Wall
 CPPFLAGS += -Wextra
 CPPFLAGS += -Werror
 
-CFLAGS += -iquote ./include
+CPPFLAGS += -I ./include
