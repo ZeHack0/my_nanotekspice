@@ -13,3 +13,5 @@
 vgcore.*
 
 # Fichiers spécifiques au projet
+*.nts
+nanotekspice
