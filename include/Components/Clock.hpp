@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "AComponents.hpp"
+
 namespace nts {
     class ClockComponent : public AComponent {
     private:
