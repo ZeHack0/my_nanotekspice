@@ -10,6 +10,7 @@
 #include "../nts/IComponent.hpp"
 #include <iostream>
 #include <map>
+#include <memory>
 
 namespace nts {
 
