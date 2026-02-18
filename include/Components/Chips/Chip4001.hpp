@@ -1,0 +1,43 @@
+/*
+** EPITECH PROJECT, 2026
+** nanotekspice
+** File description:
+** Chip4001
+*/
+
+#include "../AComponents.hpp"
+#include "../../nts/Exceptions.hpp"
+
+namespace nts {
+
+    class Chip4001 : public AComponent {
+
+        public:
+            Chip4001(): AComponent(14) {}
+            ~Chip4001() override = default;
+            Tristate compute(std::size_t pin) override {
+                if (pin == 3)
+                    return computeNor(1, 2);
+                if (pin == 4)
+                    return computeNor(5, 6);
+                if (pin == 10)
+                    return computeNor(8, 9);
+                if (pin == 11)
+                    return computeNor(12, 13);
+                throw NtsException("Invalid pin for compute or not an output pin");
+            }
+
+        private:
+            Tristate computeNor(std::size_t pinA, std::size_t pinB) {
+                Tristate vA = getLink(pinA);
+                Tristate vB = getLink(pinB);
+
+                if (vA == True || vB == True)
+                    return False;
+                if (vA == False && vB == False)
+                    return True;
+                return Undefined;
+            }
+    };
+
+}
