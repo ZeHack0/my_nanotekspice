@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AComponents.hpp"
+#include "../nts/Exceptions.hpp"
 
 namespace nts {
     class ClockComponent : public AComponent {
@@ -18,7 +19,7 @@ namespace nts {
         ClockComponent() : AComponent(1), _state(False) {}
         Tristate compute(std::size_t pin = 1) override {
             if (pin != 1)
-                throw Exception("Invalid pin number");
+                throw NtsException("Invalid pin number");
             return _state;
         }
         void simulate(std::size_t tick) override {
