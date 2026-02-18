@@ -1,5 +1,12 @@
-#include "Components/AComponents.hpp"
-#include "nts/Exceptions.hpp"
+/*
+** EPITECH PROJECT, 2026
+** nanotekspice
+** File description:
+** AComponents
+*/
+
+#include "../include/Components/AComponents.hpp"
+#include "../include/nts/Exceptions.hpp"
 
 nts::AComponent::AComponent(std::size_t nbPins) : _pins(nbPins, nts::Undefined) {}
 

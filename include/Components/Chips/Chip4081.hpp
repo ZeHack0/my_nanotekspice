@@ -8,13 +8,14 @@
 #pragma once
 
 #include "../AComponents.hpp"
+#include "../../nts/Exceptions.hpp"
 
 namespace nts {
 
     class Chip4081 : public AComponent {
 
         public:
-            Chip4081() : AComponent(14) {}
+            Chip4081(): AComponent(14) {}
             ~Chip4081() override = default;
             Tristate compute(std::size_t pin) override {
                 if (pin == 3)
