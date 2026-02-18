@@ -13,10 +13,10 @@ namespace nts {
     class TrueComponent : public AComponent {
     public:
         TrueComponent() : AComponent(1) {}
-        nts::Tristate compute(std::size_t pin = 1) override {
+        Tristate compute(std::size_t pin = 1) override {
             if (pin != 1)
                 throw Exception("Invalid pin number");
-            return nts::TRUE;
+            return True;
         }
     };
 }

@@ -13,12 +13,12 @@ namespace nts {
     class InputComponent : public AComponent {
     public:
         InputComponent() : AComponent(1) {}
-        nts::Tristate compute(std::size_t pin = 1) override {
+        Tristate compute(std::size_t pin = 1) override {
             if (pin != 1)
                 throw Exception("Invalid pin number");
             return _pins[0];
         }
-        void setValue(nts::Tristate value) {
+        void setValue(Tristate value) {
             _pins[0] = value;
         }
     };
