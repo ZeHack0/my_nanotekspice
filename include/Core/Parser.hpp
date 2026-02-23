@@ -29,3 +29,4 @@ namespace nts {
             static bool checkNameFile(const std::string& filename);
     };
 }
+    
