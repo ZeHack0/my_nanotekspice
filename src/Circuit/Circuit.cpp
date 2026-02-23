@@ -5,13 +5,13 @@
 ** Circuit
 */
 
-#include "Circuit.hpp"
-#include "components/Special/InputComponent.hpp"
+#include "../../include/Core/Circuit.hpp"
+#include "../../include/Components/Input.hpp"
 #include <iostream>
 #include <string>
 #include <sys/wait.h>
 
-void Circuit::simulate()
+void nts::Circuit::simulate()
 {
     _tick++;
     for (auto &[name, comp] : _components)
@@ -51,7 +51,7 @@ void set_value(const std::string cmd)
     }
     if (it == _components.end())
         std::cout << "Component not found: " << name << std::endl;
-    InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
+    nts::InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
         if (!inp)
             return;
     inp->setValue(value);

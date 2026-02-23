@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "IComponent.hpp"
+#include "../nts/IComponent.hpp"
 #include <map>
 #include <memory>
 #include <string>
@@ -19,10 +19,10 @@ namespace nts
     {
         private:
         std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
-        std::vector<std::string> _inputNames;
-        std::vector<std::string> _outputNames;
+        //std::vector<std::string> _inputNames;
+        //std::vector<std::string> _outputNames;
         std::size_t _tick;
-        Factory _factory;
+        //Factory _factory;
 
         std::string get_cmdline(const std::string line);
         nts::Tristate convert_value(const std::string value);
@@ -31,7 +31,7 @@ namespace nts
         
         
         public:
-            Circuit();
+            Circuit() : _tick(0) {};
             ~Circuit() = default;
     
             void simulate();

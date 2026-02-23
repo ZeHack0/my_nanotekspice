@@ -8,6 +8,7 @@
 #pragma once
 
 #include "AComponents.hpp"
+#include "../../nts/Exceptions.hpp"
 
 namespace nts {
     class NotComponent : public AComponent {
@@ -15,7 +16,7 @@ namespace nts {
             NotComponent() : AComponent(2) {}
             nts::Tristate compute(std::size_t pin = 1) override {
                 if (pin != 2)
-                    throw Exception("Invalid pin number");
+                    throw NtsException("Invalid pin number");
 
                 nts::Tristate a = getLink(1);
 
