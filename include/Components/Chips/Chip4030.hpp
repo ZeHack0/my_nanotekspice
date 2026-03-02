@@ -28,6 +28,7 @@ namespace nts {
                     return computeXor(12, 13);
                 throw NtsException("Invalid pin for compute or not an output pin");
             }
+            [[nodiscard]] std::string getType() const override { return "4030"; }
 
         private:
             Tristate computeXor(std::size_t pinA, std::size_t pinB) {

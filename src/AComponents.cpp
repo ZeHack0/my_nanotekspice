@@ -14,10 +14,10 @@ void nts::AComponent::simulate(std::size_t tick) {
     (void)tick;
 }
 
-void nts::AComponent::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
+void nts::AComponent::setLink(std::size_t pin, IComponent &other, std::size_t otherPin) {
     if (pin == 0 || pin > _pins.size())
+        throw NtsException("Invalid pin number");
     _links[pin] = Link(other, otherPin);
-    throw NtsException("Invalid pin number");
 }
 
 nts::Tristate nts::AComponent::getLink(std::size_t pin) {

@@ -5,10 +5,27 @@
 ** Parser
 */
 
-#include "../../include/Core/Parser.hpp"
+#include "Core/Parser.hpp"
+#include "nts/Exceptions.hpp"
+#include "Components/Input.hpp"
+#include "Components/Chips/Chip4001.hpp"
+#include "Components/Chips/Chip4011.hpp"
+#include "Components/Chips/Chip4030.hpp"
+#include "Components/Chips/Chip4069.hpp"
+#include "Components/Chips/Chip4071.hpp"
+#include "Components/Chips/Chip4081.hpp"
 #include <fstream>
+#include <sstream>
+
+#include "Components/Output.hpp"
 
 namespace nts {
+
+    Parser::Parser() {
+        initFactory();
+    }
+
+    Parser::~Parser() = default;
 
     std::string Parser::openFile(const std::string& filename) {
         std::ifstream ifs(filename);
@@ -41,10 +58,96 @@ namespace nts {
         return true;
     }
 
+    void Parser::parseChipsets(const std::string& line) {
+        std::stringstream ss(line);
+        std::string type;
+        std::string name;
+
+        if (!(ss >> type >> name))
+            throw NtsException("Invalid chipset Format");
+        if (_components.find(name) != _components.end())
+            throw NtsException("This composant '" + name + "' is already exist");
+
+        auto newComponent = createComponent(type);
+        if (!newComponent)
+            throw NtsException("Unknown component type : " + type);
+        _components[name] = std::move(newComponent);
+    }
+
+    void Parser::parseLinks(const std::string& line) {
+        std::stringstream ss(line);
+        std::string part1;
+        std::string part2;
+
+        if (!(ss >> part1 >> part2))
+            throw NtsException("Invalid chipset Format");
+        auto splitContact = [](const std::string& contact) {
+            size_t pos = contact.find(':');
+            if (pos == std::string::npos) {
+                throw NtsException("Invalid contact Format (missing ':') : " + contact);
+            }
+
+            std::string name = contact.substr(0, pos);
+            std::string pinStr = contact.substr(pos + 1);
+
+            return std::make_pair(name, std::stoul(pinStr));
+        };
+
+        auto [name1, pin1] = splitContact(part1);
+        auto [name2, pin2] = splitContact(part2);
+        if (_components.find(name1) == _components.end() || _components.find(name2) == _components.end())
+            throw NtsException("impossible Links : Unknow composant.");
+        _components[name1]->setLink(pin1, *_components[name2], pin2);
+    }
+
     void Parser::parserFile(const std::string& filename) {
         if (checkNameFile(filename) == false)
             return;
-        std::string file = openFile(filename);
-        std::cout << file;
+
+        std::string content = openFile(filename);
+        std::stringstream ss(content);
+        std::string line;
+        std::string section;
+
+        while (std::getline(ss, line)) {
+            if (line == ".chipsets:" || line == ".links:") {
+                section = line;
+                continue;
+            }
+            if (section == ".chipsets:") {
+                parseChipsets(line);
+            } else if (section == ".links:") {
+                parseLinks(line);
+            }
+        }
+        std::cout << "--- Debug: Contenu de _components ---" << std::endl;
+        if (_components.empty()) {
+            std::cout << "La map est vide." << std::endl;
+        }
+        for (auto const& [name, component] : _components) {
+            std::cout << "Nom: " << name << " | Type: " << component->getType() << std::endl;
+        }
+        std::cout << "-------------------------------------" << std::endl;
     }
+
+    void Parser::initFactory() {
+        _componentFactory["4001"] = []() { return std::make_unique<Chip4001>(); };
+        _componentFactory["4011"] = []() { return std::make_unique<Chip4011>(); };
+        _componentFactory["4030"] = []() { return std::make_unique<Chip4030>(); };
+        _componentFactory["4069"] = []() { return std::make_unique<Chip4069>(); };
+        _componentFactory["4071"] = []() { return std::make_unique<Chip4071>(); };
+        _componentFactory["4081"] = []() { return std::make_unique<Chip4081>(); };
+        _componentFactory["input"] = []() { return std::make_unique<InputComponent>(); };
+        _componentFactory["output"] = []() { return std::make_unique<OutputComponent>(); };
+    }
+
+    std::unique_ptr<IComponent> Parser::createComponent(const std::string &type) {
+        auto it = _componentFactory.find(type);
+
+        if (it != _componentFactory.end()) {
+            return it->second();
+        }
+        return nullptr;
+    }
+
 }

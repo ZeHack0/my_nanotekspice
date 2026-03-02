@@ -8,7 +8,7 @@
 #pragma once
 
 #include "AComponents.hpp"
-#include "../nts/Exceptions.hpp"
+#include "nts/Exceptions.hpp"
 
 namespace nts {
     class InputComponent : public AComponent {
@@ -22,5 +22,6 @@ namespace nts {
         void setValue(Tristate value) {
             _pins[0] = value;
         }
+        [[nodiscard]] std::string getType() const override { return "input"; }
     };
 }

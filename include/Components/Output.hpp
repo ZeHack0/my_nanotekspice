@@ -8,7 +8,7 @@
 #pragma once
 
 #include "AComponents.hpp"
-#include "../nts/Exceptions.hpp"
+#include "nts/Exceptions.hpp"
 
 namespace nts {
     class OutputComponent : public AComponent {
@@ -19,5 +19,6 @@ namespace nts {
                 throw NtsException("Invalid pin number");
             return getLink(1);
         }
+        [[nodiscard]] std::string getType() const override { return "output"; }
     };
 }

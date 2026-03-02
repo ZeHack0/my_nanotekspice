@@ -27,5 +27,6 @@ namespace nts {
             virtual void setLink(std::size_t pin, IComponent &other, std::size_t otherPin);
 
             Tristate getLink(std::size_t pin);
+            [[nodiscard]] virtual std::string getType() const = 0;
         };
 }

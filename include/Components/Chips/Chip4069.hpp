@@ -32,6 +32,7 @@ namespace nts {
                     return computeNot(13);
                 throw NtsException("Invalid pin for compute or not an output pin");
             }
+            [[nodiscard]] std::string getType() const override { return "4069"; }
 
         private:
             Tristate computeNot(std::size_t pin) {

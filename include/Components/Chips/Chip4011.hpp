@@ -28,6 +28,7 @@ namespace nts {
                     return computeNand(12, 13);
                 throw NtsException("Invalid pin for compute or not an output pin");
             }
+            [[nodiscard]] std::string getType() const override { return "4011"; }
 
         private:
             Tristate computeNand(std::size_t pinA, std::size_t pinB) {
