@@ -9,7 +9,7 @@ include flags.mk
 
 NAME = nanotekspice
 
-CC := g++-13
+CC := g++
 
 BUILD_DIR := .build
 
