@@ -81,9 +81,11 @@ namespace nts
         size_t pos = cmd.find("=");
         std::string name = cmd.substr(0, pos);
         std::string value = cmd.substr(pos + 1);
-        auto it = _components.find(name);
+        auto it =  _components.find(name);
         nts::Tristate state = convert_value(value);
 
+        //for (const auto& [key, _] : _components)
+        //    std::cout << key << '\n';
         if (it == _components.end())
             std::cout << "Component not found: " << name << std::endl;
         nts::InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
@@ -97,7 +99,7 @@ namespace nts
         std::string cmd = get_cmdline(line);
             if (cmd.find("=") != std::string::npos)
                 set_value(cmd);
-            if (cmd == "simulate")
+            else if (cmd == "simulate")
                 simulate();
             else if (cmd == "display")
                 display();
