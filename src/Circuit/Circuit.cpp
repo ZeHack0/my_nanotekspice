@@ -30,7 +30,7 @@ namespace nts
                     temp = '1';
                 else
                     temp = '0';
-                std::cout << '\t' << name << ": " << temp << std::endl;
+                std::cout << "  " << name << ": " << temp << std::endl;
             }
         }
         std::cout << "output(s):" << std::endl;
@@ -43,7 +43,7 @@ namespace nts
                     temp = '1';
                 else
                     temp = '0';
-                std::cout << '\t' << name << ": " << temp << std::endl;
+                std::cout << "  " << name << ": " << temp << std::endl;
             }
         }
     }
