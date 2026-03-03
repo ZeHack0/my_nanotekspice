@@ -10,5 +10,9 @@ CPPFLAGS += -Wall
 CPPFLAGS += -Wextra
 CPPFLAGS += -Werror
 
+CPPFLAGS += -I ./include/Components
+CPPFLAGS += -I ./include/Components/Chips
+CPPFLAGS += -I ./include/Components/Gates
+CPPFLAGS += -I ./include/Core
+CPPFLAGS += -I ./include/nts
 CPPFLAGS += -I ./include/
-CPPFLAGS += -I ./include/**
