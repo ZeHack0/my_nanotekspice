@@ -35,9 +35,9 @@ namespace nts {
                 Tristate vA = getLink(pinA);
                 Tristate vB = getLink(pinB);
 
-                if (vA == False || vB == False)
+                if (vA == True || vB == True)
                     return True;
-                if (vA == True && vB == True)
+                if (vA == False && vB == False)
                     return False;
                 return Undefined;
             }
