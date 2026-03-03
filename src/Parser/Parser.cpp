@@ -121,14 +121,6 @@ namespace nts {
                 parseLinks(line);
             }
         }
-        std::cout << "--- Debug: Contenu de _components ---" << std::endl;
-        if (_components.empty()) {
-            std::cout << "La map est vide." << std::endl;
-        }
-        for (auto const& [name, component] : _components) {
-            std::cout << "Nom: " << name << " | Type: " << component->getType() << std::endl;
-        }
-        std::cout << "-------------------------------------" << std::endl;
     }
 
     void Parser::initFactory() {
