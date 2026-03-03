@@ -14,6 +14,40 @@
 
 namespace nts
 {
+    void Circuit::display() const
+    {
+        char temp;
+        nts::Tristate state;
+    
+        std::cout << "tick: " << _tick << std::endl;
+        std::cout << "input(s):" << std::endl;
+        for (const auto &[name, comp] : _components) {
+            if (comp->getType() == "input") {
+                state = comp->compute(1);
+                if (state == nts::Tristate::Undefined)
+                    temp = 'U';
+                else if (state == nts::Tristate::True)
+                    temp = '1';
+                else
+                    temp = '0';
+                std::cout << '\t' << name << ": " << temp << std::endl;
+            }
+        }
+        std::cout << "output(s):" << std::endl;
+        for (const auto &[name, comp] : _components) {
+            if (comp->getType() == "output") {
+                state = comp->compute(1);
+                if (state == nts::Tristate::Undefined)
+                    temp = 'U';
+                else if (state == nts::Tristate::True)
+                    temp = '1';
+                else
+                    temp = '0';
+                std::cout << '\t' << name << ": " << temp << std::endl;
+            }
+        }
+    }
+
     void Circuit::simulate()
     {
         _tick++;

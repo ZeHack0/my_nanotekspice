@@ -20,22 +20,18 @@ namespace nts
         private:
         std::size_t _tick;
         std::map<std::string, std::unique_ptr<nts::IComponent>> _components;
-        //std::vector<std::string> _inputNames;
-        //std::vector<std::string> _outputNames;
-        //Factory _factory;
 
         std::string get_cmdline(const std::string line);
         nts::Tristate convert_value(const std::string value);
         void exec_cmd(const std::string cmd);
         //void loop_sim();
-        
-        
+
         public:
             Circuit() : _tick(0), _components() {};
             ~Circuit() = default;
-    
+
             void simulate();
-            //void display() const;
+            void display() const;
             void set_value(const std::string name);
             int shell();
     };

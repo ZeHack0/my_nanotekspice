@@ -11,3 +11,4 @@ CPPFLAGS += -Wextra
 CPPFLAGS += -Werror
 
 CPPFLAGS += -I ./include/
+CPPFLAGS += -I ./include/**

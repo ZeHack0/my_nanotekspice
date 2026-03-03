@@ -11,6 +11,7 @@
 #include <iostream>
 #include <map>
 #include <memory>
+#include <functional>
 
 namespace nts {
 
@@ -35,4 +36,3 @@ namespace nts {
             static bool checkNameFile(const std::string& filename);
     };
 }
-    

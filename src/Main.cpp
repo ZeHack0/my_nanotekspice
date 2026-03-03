@@ -13,8 +13,8 @@ int main(int ac, char **av)
 {
     (void)ac;
     nts::Parser parser;
+    nts::Circuit circuit = nts::Circuit();
     parser.parserFile(av[1]);
-    nts::Circuit circuit;
-    circuit.shell();
-    return 0;
+    circuit._components = parser._components;
+    return circuit.shell();
 }
