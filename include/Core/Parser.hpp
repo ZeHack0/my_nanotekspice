@@ -23,6 +23,9 @@ namespace nts {
             void parserFile(const std::string& filename);
             const std::map<std::string, std::unique_ptr<IComponent>> &getComponents() const;
             std::unique_ptr<IComponent> createComponent(const std::string &type);
+            std::map<std::string, std::unique_ptr<IComponent>> releaseComponents() {
+                return std::move(_components);
+            }
 
         private:
             void parseChipsets(const std::string &line);

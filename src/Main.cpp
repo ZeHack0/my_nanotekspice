@@ -11,10 +11,12 @@
 
 int main(int ac, char **av)
 {
-    (void)ac;
+    if (ac != 2)
+        return 84;
     nts::Parser parser;
-    nts::Circuit circuit = nts::Circuit();
+    nts::Circuit circuit;
+
     parser.parserFile(av[1]);
-    circuit._components = parser._components;
+    circuit.setComponents(parser.releaseComponents());
     return circuit.shell();
 }

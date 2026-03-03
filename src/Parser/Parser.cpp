@@ -16,6 +16,7 @@
 #include "Components/Chips/Chip4081.hpp"
 #include <fstream>
 #include <sstream>
+#include <functional>
 
 #include "Components/Output.hpp"
 
