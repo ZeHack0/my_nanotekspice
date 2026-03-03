@@ -66,12 +66,14 @@ namespace nts
 
     nts::Tristate Circuit::convert_value(const std::string value)
     {
-        if (value == "True")
+        if (value == "1")
             return nts::Tristate::True;
-        if (value == "False")
+        if (value == "0")
             return nts::Tristate::False;
-        else
+        if (value == "U")
             return nts::Tristate::Undefined;
+        else
+            throw NtsException("Invalid value: " + value);
     }
 
     void Circuit::set_value(const std::string cmd)
@@ -82,10 +84,6 @@ namespace nts
         auto it = _components.find(name);
         nts::Tristate state = convert_value(value);
 
-        if (state == nts::Tristate::Undefined) {
-            std::cout << "Invalid value: " << value << std::endl;
-            return;
-        }
         if (it == _components.end())
             std::cout << "Component not found: " << name << std::endl;
         nts::InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
@@ -101,8 +99,8 @@ namespace nts
                 set_value(cmd);
             if (cmd == "simulate")
                 simulate();
-            //else if (cmd == "display")
-            //    display();
+            else if (cmd == "display")
+                display();
             //else if (cmd == "loop")
             //    loop_sim();
             else
