@@ -7,13 +7,18 @@
 
 #include "../../include/Core/Circuit.hpp"
 #include "../../include/Components/Input.hpp"
-#include <iostream>
-#include <string>
-#include <sys/wait.h>
+#include <csignal>
 
 
 namespace nts
 {
+    static volatile bool is_running = true;
+
+    static void sigint_handler(int)
+    {
+        is_running = false;
+    }
+
     void Circuit::display() const
     {
         char temp;
@@ -46,6 +51,17 @@ namespace nts
                 std::cout << "  " << name << ": " << temp << std::endl;
             }
         }
+    }
+
+    void Circuit::loop_sim()
+    {
+        is_running = true;
+        std::signal(SIGINT, sigint_handler);
+        while (is_running) {
+            simulate();
+            display();
+        }
+        std::signal(SIGINT, SIG_DFL);
     }
 
     void Circuit::simulate()
@@ -84,8 +100,8 @@ namespace nts
         auto it =  _components.find(name);
         nts::Tristate state = convert_value(value);
 
-        //for (const auto& [key, _] : _components)
-        //    std::cout << key << '\n';
+        for (const auto& [key, _] : _components)
+            std::cout << key << '\n';
         if (it == _components.end())
             std::cout << "Component not found: " << name << std::endl;
         nts::InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
@@ -103,8 +119,8 @@ namespace nts
                 simulate();
             else if (cmd == "display")
                 display();
-            //else if (cmd == "loop")
-            //    loop_sim();
+            else if (cmd == "loop")
+                loop_sim();
             else
                 std::cout << "Unknown command: " << cmd << std::endl;
     }

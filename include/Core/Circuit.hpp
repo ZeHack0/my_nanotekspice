@@ -12,6 +12,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace nts
 {
@@ -24,7 +25,7 @@ namespace nts
             std::string get_cmdline(const std::string line);
             nts::Tristate convert_value(const std::string value);
             void exec_cmd(const std::string cmd);
-            //void loop_sim();
+            void loop_sim();
 
         public:
             Circuit() : _tick(0), _components() {};
