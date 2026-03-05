@@ -37,5 +37,7 @@ namespace nts {
         protected:
             static std::string openFile(const std::string& filename);
             static bool checkNameFile(const std::string& filename);
+            static bool checkIsEmpty(const std::string& filename);
+            static bool validateSections(const std::string& filename);
     };
 }

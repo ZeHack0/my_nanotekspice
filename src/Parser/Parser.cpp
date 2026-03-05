@@ -14,11 +14,11 @@
 #include "Components/Chips/Chip4069.hpp"
 #include "Components/Chips/Chip4071.hpp"
 #include "Components/Chips/Chip4081.hpp"
+#include "Components/Output.hpp"
+
 #include <fstream>
 #include <sstream>
 #include <functional>
-
-#include "Components/Output.hpp"
 
 namespace nts {
 
@@ -34,7 +34,7 @@ namespace nts {
         std::string line;
 
         if (ifs.is_open() == false)
-            return nullptr;
+            throw NtsException("Files doesn't exist");
         while (std::getline(ifs, line)) {
             size_t commentPos = line.find('#');
             if (commentPos != std::string::npos)
@@ -58,6 +58,37 @@ namespace nts {
             return false;
         return true;
     }
+
+    bool Parser::checkIsEmpty(const std::string& filename) {
+        std::string content = openFile(filename);
+
+        if (content[0] == '\0')
+            return false;
+        return true;
+    }
+
+    bool Parser::validateSections(const std::string& filename) {
+        std::ifstream file(filename);
+        std::string line;
+        bool hasChipsets = false;
+        bool hasLinks = false;
+
+        while (std::getline(file, line)) {
+            size_t commentPos = line.find('#');
+            if (commentPos != std::string::npos)
+                line = line.substr(0, commentPos);
+            line.erase(line.find_last_not_of(" \t\n\r\f\v") + 1, std::string::npos);
+
+            if (line == ".chipsets:")
+                hasChipsets = true;
+            if (line == ".links:")
+                hasLinks = true;
+        }
+        if (!hasChipsets || !hasLinks)
+            return false;
+        return true;
+    }
+
 
     void Parser::parseChipsets(const std::string& line) {
         std::stringstream ss(line);
@@ -103,7 +134,11 @@ namespace nts {
 
     void Parser::parserFile(const std::string& filename) {
         if (checkNameFile(filename) == false)
-            return;
+            throw NtsException("Invalid File: Wring file");
+        if (checkIsEmpty(filename) == false)
+            throw NtsException("Invalid File: Empty file");
+        if (validateSections(filename) == false)
+            throw std::runtime_error("Missing required section in .nts file");
 
         std::string content = openFile(filename);
         std::stringstream ss(content);
@@ -142,5 +177,4 @@ namespace nts {
         }
         return nullptr;
     }
-
 }
