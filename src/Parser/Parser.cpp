@@ -14,11 +14,11 @@
 #include "Components/Chips/Chip4069.hpp"
 #include "Components/Chips/Chip4071.hpp"
 #include "Components/Chips/Chip4081.hpp"
+#include "Components/Output.hpp"
+
 #include <fstream>
 #include <sstream>
 #include <functional>
-
-#include "Components/Output.hpp"
 
 namespace nts {
 
@@ -104,6 +104,8 @@ namespace nts {
     void Parser::parserFile(const std::string& filename) {
         if (checkNameFile(filename) == false)
             return;
+        if (checkIsEmpty(filename) == false)
+            return;
 
         std::string content = openFile(filename);
         std::stringstream ss(content);
@@ -143,4 +145,11 @@ namespace nts {
         return nullptr;
     }
 
+    bool Parser::checkIsEmpty(const std::string& filename) {
+        std::string content = openFile(filename);
+
+        if (content[0] == '\0')
+            throw NtsException("Invalid File: Empty file");
+        return true;
+    }
 }

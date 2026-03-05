@@ -22,16 +22,16 @@ namespace nts
     void Circuit::display() const
     {
         char temp;
-        nts::Tristate state;
+        Tristate state;
     
         std::cout << "tick: " << _tick << std::endl;
         std::cout << "input(s):" << std::endl;
         for (const auto &[name, comp] : _components) {
             if (comp->getType() == "input") {
                 state = comp->compute(1);
-                if (state == nts::Tristate::Undefined)
+                if (state == Undefined)
                     temp = 'U';
-                else if (state == nts::Tristate::True)
+                else if (state == True)
                     temp = '1';
                 else
                     temp = '0';
@@ -42,9 +42,9 @@ namespace nts
         for (const auto &[name, comp] : _components) {
             if (comp->getType() == "output") {
                 state = comp->compute(1);
-                if (state == nts::Tristate::Undefined)
+                if (state == Undefined)
                     temp = 'U';
-                else if (state == nts::Tristate::True)
+                else if (state == True)
                     temp = '1';
                 else
                     temp = '0';
@@ -80,14 +80,14 @@ namespace nts
         return result;
     }
 
-    nts::Tristate Circuit::convert_value(const std::string value)
+    Tristate Circuit::convert_value(const std::string value)
     {
         if (value == "1")
-            return nts::Tristate::True;
+            return True;
         if (value == "0")
-            return nts::Tristate::False;
+            return False;
         if (value == "U")
-            return nts::Tristate::Undefined;
+            return Undefined;
         else
             throw NtsException("Invalid value: " + value);
     }
@@ -98,13 +98,13 @@ namespace nts
         std::string name = cmd.substr(0, pos);
         std::string value = cmd.substr(pos + 1);
         auto it =  _components.find(name);
-        nts::Tristate state = convert_value(value);
+        Tristate state = convert_value(value);
 
         for (const auto& [key, _] : _components)
             std::cout << key << '\n';
         if (it == _components.end())
             std::cout << "Component not found: " << name << std::endl;
-        nts::InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
+        InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
             if (!inp)
                 return;
         inp->setValue(state);
@@ -130,7 +130,7 @@ namespace nts
         std::string line = "";
 
         while (true) {
-            std::cout << " > ";
+            std::cout << "> ";
             if (!std::getline(std::cin, line))
                 break;
             if (line == "exit")
