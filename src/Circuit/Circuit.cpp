@@ -100,8 +100,8 @@ namespace nts
         auto it =  _components.find(name);
         Tristate state = convert_value(value);
 
-        for (const auto& [key, _] : _components)
-            std::cout << key << '\n';
+        // for (const auto& [key, _] : _components)
+        //     std::cout << key << '\n';
         if (it == _components.end())
             std::cout << "Component not found: " << name << std::endl;
         InputComponent *inp = dynamic_cast<InputComponent *>(it->second.get());
