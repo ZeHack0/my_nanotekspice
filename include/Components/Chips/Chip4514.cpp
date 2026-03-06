@@ -9,8 +9,13 @@
 
 namespace nts {
 
-    static Tristate Q;
-    static Tristate Q_bar;
+    Chip4514::Chip4514() : AComponent(24)
+    {
+        latch_1 = Latch();
+        latch_2 = Latch();
+        latch_3 = Latch();
+        latch_4 = Latch();
+    }
 
     Tristate get_first_pin(std::size_t pin)
     {
@@ -20,34 +25,30 @@ namespace nts {
 
     std::vector<Tristate> get_vector(std::size_t pin)
     {
-        std::vector<Tristate> latch_1(2);
-        std::vector<Tristate> latch_2(2);
-        std::vector<Tristate> latch_3(2);
-        std::vector<Tristate> latch_4(2);
         std::vector<Tristate> values(2);
 
-        latch_1 = computeLATCH(computeFirstGates(2))
-        latch_2 = computeLATCH(computeFirstGates(3));
-        latch_3 = computeLATCH(computeFirstGates(21));
-        latch_4 = computeLATCH(computeFirstGates(22));
+        latch_1.computeLATCH(computeFirstGates(2));
+        latch_2.computeLATCH(computeFirstGates(3));
+        latch_3.computeLATCH(computeFirstGates(21));
+        latch_4.computeLATCH(computeFirstGates(22));
 
         if (pin >= 8 && pin <= 11)
-            values[0] = computeAND(latch_4[0], latch_3[0]);
+            values[0] = computeAND(latch_4._Q, latch_3._Q);
         if (pin >= 4 && pin <= 7)
-            values[0] = computeAND(latch_3[1], latch_4[0]);
+            values[0] = computeAND(latch_3._Q_bar, latch_4._Q);
         if (pin >= 17 && pin <= 20)
-            values[0] = computeAND(latch_3[0], latch_4[1]);
+            values[0] = computeAND(latch_3._Q, latch_4._Q_bar);
         if (pin >= 13 && pin <= 16)
-            values[0] = computeAND(latch_3[1], latch_4[1]);
+            values[0] = computeAND(latch_3._Q_bar, latch_4._Q_bar);
         
         if (pin == 11 || pin == 7 || pin == 18 || pin == 14)
-            values[1] = computeAND(latch_1[0], latch_2[0]);
+            values[1] = computeAND(latch_1._Q, latch_2._Q);
         if (pin == 9 || pin == 6 || pin == 17 || pin == 13)
-            values[1] = computeAND(latch_1[1], latch_2[0]);
+            values[1] = computeAND(latch_1._Q_bar, latch_2._Q);
         if (pin == 10 || pin == 5 || pin == 20 || pin == 16)
-            values[1] = computeAND(latch_1[0], latch_2[1]);
+            values[1] = computeAND(latch_1._Q, latch_2._Q_bar);
         if (pin == 8 || pin == 4 || pin == 19 || pin == 15)
-            values[1] = computeAND(latch_1[1], latch_2[1]);
+            values[1] = computeAND(latch_1._Q_bar, latch_2._Q_bar);
 
         return values;
     }
@@ -73,29 +74,30 @@ namespace nts {
         return values;
     }    
 
-    std::vector<Tristate> Chip4514::computeLATCH(std::vector<Tristate> values)
+    void Chip4514::Latch::computeLATCH(std::vector<Tristate> values)
     {
-        Tristate S = values[0];
-        Tristate R = values[1];
+        _S = values[0];
+        _R = values[1];
 
-        if (S == False && R == False)
-            return {Q, Q_bar};
-        if (S == True && R == False) {
-            Q = True;
-            Q_bar = False;
-            return {Q, Q_bar};
+        if (_S == False && _R == False)
+            return;
+        if (_S == True && _R == False) {
+            _Q = True;
+            _Q_bar = False;
+            return;
         }
-        if (S == False && R == True) {
-            Q = False;
-            Q_bar = True;
-            return {Q, Q_bar};
+        if (_S == False && _R == True) {
+            _Q = False;
+            _Q_bar = True;
+            return;
         }
-        if (S == True && R == True) {
-            Q = False;
-            Q_bar = False;
-            return {Q, Q_bar};
+        if (_S == True && _R == True) {
+            _Q = False;
+            _Q_bar = False;
+            return;
         }
-        return {Undefined, Undefined};
+        _Q = Undefined;
+        _Q_bar = Undefined;
     }
 
     Tristate Chip4514::computeNOT(Tristate value)
