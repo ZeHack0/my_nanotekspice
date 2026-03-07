@@ -5,11 +5,11 @@
 ** Chip4081
 */
 
-#include "../../include/Components/AdvanceChips/Chip4514.hpp"
+#include "../../include/Components/AdvanceChips/Chip4512.hpp"
 #include "../../include/nts/Exceptions.hpp"
 
 namespace nts {
-    Tristate Chip4514::compute(std::size_t pin)
+    Tristate Chip4512::compute(std::size_t pin)
     {
         Tristate C = getLink(13);
         Tristate B = getLink(12);

@@ -35,7 +35,7 @@ namespace nts {
             values[0] = computeAND(latch_3._Q, latch_4._Q_bar);
         if (pin >= 13 && pin <= 16)
             values[0] = computeAND(latch_3._Q_bar, latch_4._Q_bar);
-        
+
         if (pin == 11 || pin == 7 || pin == 18 || pin == 14)
             values[1] = computeAND(latch_1._Q, latch_2._Q);
         if (pin == 9 || pin == 6 || pin == 17 || pin == 13)
@@ -68,7 +68,7 @@ namespace nts {
         values[0] = computeAND(values[0], values[1]);
         values[1] = computeAND(values[0], values[1]);
         return values;
-    }    
+    }
 
     void Chip4514::Latch::computeLATCH(std::vector<Tristate> values)
     {
