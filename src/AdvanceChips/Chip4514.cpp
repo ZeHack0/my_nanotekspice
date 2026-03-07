@@ -5,7 +5,8 @@
 ** Chip4081
 */
 
-#include "Chip4514.hpp"
+#include "../../include/Components/AdvanceChips/Chip4514.hpp"
+#include "../../include/nts/Exceptions.hpp"
 
 namespace nts {
 
@@ -62,7 +63,7 @@ namespace nts {
             throw NtsException("Invalid pin for compute or not an output pin");
         if (inhibit == True)
             return False;
-        return computeNOT(computeNAND(get_vector(pin), inhibit));
+        return computeNOT(computeNAND(TODO, TODO, inhibit));
     }
 
     std::vector<Tristate> Chips4514::computeFirstGates(std::size_t pin)

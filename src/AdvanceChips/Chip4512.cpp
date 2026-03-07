@@ -5,7 +5,8 @@
 ** Chip4081
 */
 
-#include "Chip4514.hpp"
+#include "../../include/Components/AdvanceChips/Chip4514.hpp"
+#include "../../include/nts/Exceptions.hpp"
 
 namespace nts {
     Tristate Chip4514::compute(std::size_t pin)

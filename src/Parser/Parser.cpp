@@ -9,8 +9,11 @@
 #include "nts/Exceptions.hpp"
 #include "Components/Input.hpp"
 #include "Components/Chips/Chip4001.hpp"
+#include "Components/AdvanceChips/Chip4008.hpp"
 #include "Components/Chips/Chip4011.hpp"
 #include "Components/Chips/Chip4030.hpp"
+#include "Components/AdvanceChips/Chip4512.hpp"
+#include "Components/AdvanceChips/Chip4514.hpp"
 #include "Components/Chips/Chip4069.hpp"
 #include "Components/Chips/Chip4071.hpp"
 #include "Components/Chips/Chip4081.hpp"
@@ -160,7 +163,10 @@ namespace nts {
 
     void Parser::initFactory() {
         _componentFactory["4001"] = []() { return std::make_unique<Chip4001>(); };
+        _componentFactory["4008"] = []() { return std::make_unique<Chip4008>(); };
         _componentFactory["4011"] = []() { return std::make_unique<Chip4011>(); };
+        _componentFactory["4512"] = []() { return std::make_unique<Chip4512>(); };
+        _componentFactory["4514"] = []() { return std::make_unique<Chip4514>(); };
         _componentFactory["4030"] = []() { return std::make_unique<Chip4030>(); };
         _componentFactory["4069"] = []() { return std::make_unique<Chip4069>(); };
         _componentFactory["4071"] = []() { return std::make_unique<Chip4071>(); };
