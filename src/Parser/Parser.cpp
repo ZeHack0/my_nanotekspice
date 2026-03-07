@@ -75,19 +75,34 @@ namespace nts {
         std::string line;
         bool hasChipsets = false;
         bool hasLinks = false;
+        int chipsetCount = 0;
+        int linkCount = 0;
+        std::string currentSection;
 
         while (std::getline(file, line)) {
             size_t commentPos = line.find('#');
             if (commentPos != std::string::npos)
                 line = line.substr(0, commentPos);
-            line.erase(line.find_last_not_of(" \t\n\r\f\v") + 1, std::string::npos);
+            line.erase(line.find_last_not_of(" \t\n\r\f\v") + 1, 0);
+            line.erase(0, line.find_first_not_of(" \t\n\r\f\v"));
 
-            if (line == ".chipsets:")
+            if (line.empty())
+                continue;
+
+            if (line == ".chipsets:") {
                 hasChipsets = true;
-            if (line == ".links:")
+                currentSection = line;
+            } else if (line == ".links:") {
                 hasLinks = true;
+                currentSection = line;
+            } else {
+                if (currentSection == ".chipsets:") chipsetCount++;
+                if (currentSection == ".links:") linkCount++;
+            }
         }
-        if (!hasChipsets || !hasLinks)
+        if (!hasChipsets || chipsetCount == 0)
+            return false;
+        if (!hasLinks || linkCount == 0)
             return false;
         return true;
     }
@@ -141,7 +156,7 @@ namespace nts {
         if (checkIsEmpty(filename) == false)
             throw NtsException("Invalid File: Empty file");
         if (validateSections(filename) == false)
-            throw std::runtime_error("Missing required section in .nts file");
+            throw std::runtime_error("Section .chipsets Or Section .links: is missing or empty");
 
         std::string content = openFile(filename);
         std::stringstream ss(content);
