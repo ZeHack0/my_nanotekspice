@@ -37,5 +37,6 @@ namespace nts {
             return getLink(7);
         if (C == True && B == True && A == True)
             return getLink(9);
+        return Undefined;
     }
 }

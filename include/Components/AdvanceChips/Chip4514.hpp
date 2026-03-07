@@ -19,13 +19,12 @@ namespace nts {
             [[nodiscard]] std::string getType() const override { return "4514"; }
 
             class Latch {
-                protected:
+                public:
                     Tristate _S;
                     Tristate _R;
                     Tristate _Q;
                     Tristate _Q_bar;
 
-                public:
                     Latch() = default;
                     ~Latch() = default;
 

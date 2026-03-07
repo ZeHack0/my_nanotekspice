@@ -18,15 +18,9 @@ namespace nts {
         latch_4 = Latch();
     }
 
-    Tristate get_first_pin(std::size_t pin)
+    std::vector<Tristate> Chip4514::get_vector(std::size_t pin)
     {
-        if (pin >= 8 && pin <= 11)
-            values[0] = computeAND(latch_4[0], latch_3[0]);
-    }
-
-    std::vector<Tristate> get_vector(std::size_t pin)
-    {
-        std::vector<Tristate> values(2);
+        std::vector<Tristate> values = {Undefined, Undefined};
 
         latch_1.computeLATCH(computeFirstGates(2));
         latch_2.computeLATCH(computeFirstGates(3));
@@ -63,10 +57,11 @@ namespace nts {
             throw NtsException("Invalid pin for compute or not an output pin");
         if (inhibit == True)
             return False;
-        return computeNOT(computeNAND(TODO, TODO, inhibit));
+        values = get_vector(pin);
+        return computeNOT(computeNAND(values, inhibit));
     }
 
-    std::vector<Tristate> Chips4514::computeFirstGates(std::size_t pin)
+    std::vector<Tristate> Chip4514::computeFirstGates(std::size_t pin)
     {
         std::vector<Tristate> values = {computeNOT(getLink(pin)), computeNOT(getLink(1))};
 
@@ -122,9 +117,9 @@ namespace nts {
         return Undefined;
     }
 
-    Tristate Chip4514::computeNAND(Tristate value_1, Tristate value_2, Tristate inhibit)
+    Tristate Chip4514::computeNAND(std::vector<Tristate> values, Tristate inhibit)
     {
-        if (value_1 == True || value_2 == True || inhibit == True)
+        if (values[0] == True || values[1] == True || inhibit == True)
             return False;
         return True;
     }
